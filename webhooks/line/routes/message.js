@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var line = require('../modules/line');
 
-/* POST push message ping. */
+/* POST push message. */
 router.post('/', (req, res) => {
   const userId = req.body.to;
   const text = req.body.text;
