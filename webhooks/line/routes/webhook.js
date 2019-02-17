@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var line = require('../modules/line');
+import express from 'express';
+const router = express.Router();
+import line from '../modules/line';
 
 /* POST webhook. */
 router.post('/', (req, res) => {

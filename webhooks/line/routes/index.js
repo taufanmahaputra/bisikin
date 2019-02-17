@@ -1,5 +1,6 @@
-var express = require('express');
-var router = express.Router();
+import express from 'express';
+
+const router = express.Router()
 
 /* GET ping. */
 router.get('/', (req, res) => {
