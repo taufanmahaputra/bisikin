@@ -3,23 +3,19 @@
 /**
  * Module dependencies.
  */
-
-var app = require('../app');
-var debug = require('debug')('telegram:server');
-var http = require('http');
+import {app} from '../app'
+const http = require('http')
 
 /**
  * Get port from environment and store in Express.
  */
-
-var port = normalizePort(process.env.PORT || '7002');
+let port = normalizePort(process.env.PORT || '7002')
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
-
-var server = http.createServer(app);
+const server = http.createServer(app)
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -34,7 +30,7 @@ server.on('listening', onListening);
  */
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+  const port = parseInt(val, 10)
 
   if (isNaN(port)) {
     // named pipe
@@ -58,9 +54,9 @@ function onError(error) {
     throw error;
   }
 
-  var bind = typeof port === 'string'
+  const bind = typeof port === 'string'
     ? 'Pipe ' + port
-    : 'Port ' + port;
+    : 'Port ' + port
 
   // handle specific listen errors with friendly messages
   switch (error.code) {

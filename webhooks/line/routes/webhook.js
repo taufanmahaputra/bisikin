@@ -14,7 +14,7 @@ const handleEvent = (event) => {
   const userId = event.source.userId;
 
   if (event.type !== 'message' || event.message.type !== 'text') {
-    return line.sendReplyWrongCommandMessage(replyToken);
+    return Promise.resolve()
   }
 
   const message = event.message.text;
