@@ -4,7 +4,7 @@ const TOKEN = process.env.TOKEN;
 
 const bot = new TelegramBot(TOKEN);
 
-bot.setWebHook(`https://be4b49ea.ngrok.io/bot${TOKEN}`);
+bot.setWebHook(`https://bisikin-telegram.serveo.net/bot${TOKEN}`);
 
 bot.on('message', function onMessage(msg) {
   bot.sendMessage(msg.chat.id, msg.text);

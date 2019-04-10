@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-const app = require('../app')
+import {app} from '../app'
 const http = require('http')
 
 /**
