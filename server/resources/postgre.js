@@ -19,11 +19,24 @@ class Postgre {
     this.client = await this.pool.connect()
   }
 
+  getCompanyByEmailOrToken = async (param) => {
+    return await this.client.query('SELECT * FROM companies WHERE email = $1 OR token = $1', [param])
+  }
+
+  insertCompany = async (req) => {
+    const query = 'INSERT INTO companies(company_name, url, first_name, last_name, email, password, ' +
+      'mobile_phone, address, phone, token) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)'
+
+    const params = [req.company_name, req.url, req.first_name, req.last_name, req.email, req.password,
+      req.mobile_phone, req.address, req.phone, req.token]
+
+    return await this.client.query(query, params)
+  }
+
   getListSubscriberByCompanyID = async (companyID) => {
-    //TODO: change use companyID from auth
     return await this.client.query('SELECT u.id, active_line, active_telegram, active_whatsapp, full_name, username ' +
       'FROM user_subscribes INNER JOIN users u on user_subscribes.user_id = u.id ' +
-      'WHERE company_id = $1;', [1])
+      'WHERE company_id = $1;', [companyID])
   }
 }
 

@@ -4,8 +4,10 @@ import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 
 import Postgre from './resources/postgre'
+import * as JWT from './modules/auth_jwt'
 
 import indexRouter from './routes/index'
+import authRouter from './routes/api/v1/auth'
 import companyRouter from './routes/api/v1/company'
 
 class Application {
@@ -28,7 +30,8 @@ class Application {
     this.app.use(express.static(path.join(__dirname, 'public')))
 
     this.app.use('/', indexRouter)
-    this.app.use('/api/v1/company', companyRouter)
+    this.app.use('/api/v1/auth', authRouter)
+    this.app.use('/api/v1/company', JWT.verifyTokenRequest, companyRouter)
   }
 }
 

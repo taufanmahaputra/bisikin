@@ -1,6 +1,9 @@
 require('dotenv').config()
 
 export default {
+  auth: {
+    jwt_secret_key: process.env.JWT_SECRET_KEY
+  },
   database: {
     host: process.env.DATABASE_HOST,
     user: process.env.DATABASE_USER,
