@@ -1,30 +1,37 @@
-import express from 'express';
-import path from 'path';
-import cookieParser from 'cookie-parser';
-import logger from 'morgan';
+import express from 'express'
+import path from 'path'
+import cookieParser from 'cookie-parser'
+import logger from 'morgan'
 
-import indexRouter from './routes/index';
-import messageRouter from './routes/message';
+import Postgre from './resources/postgre'
+
+import indexRouter from './routes/index'
+import messageRouter from './routes/message'
+
+class Application {
+  constructor() {
+    /*
+     DATABASE SETUP
+     */
+    Postgre.__init()
 
 
-/*
- DATABASE SETUP
- */
+    /*
+     APPLICATION SETUP
+     */
+
+    this.app = express()
+    this.app.use(logger('dev'))
+    this.app.use(express.json())
+    this.app.use(express.urlencoded({extended: false}))
+    this.app.use(cookieParser())
+    this.app.use(express.static(path.join(__dirname, 'public')))
+
+    this.app.use('/', indexRouter)
+    this.app.use('/message', messageRouter)
+  }
+}
 
 
-/*
- APPLICATION SETUP
- */
+module.exports = new Application()
 
-const app = express()
-
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', indexRouter);
-app.use('/message', messageRouter);
-
-module.exports = app;

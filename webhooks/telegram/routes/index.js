@@ -1,15 +1,15 @@
-require('dotenv').config()
+import Config from '../config'
+import * as telegram from '../modules/telegram'
 
-var express = require('express');
-var router = express.Router();
-var telegram = require('../modules/telegram')
+const express = require('express');
+const router = express.Router();
 
 /* GET ping. */
 router.get('/', (req, res) => {
   res.json({title: 'Bisikin - Telegram Webhook', status: 'OK'});
 });
 
-router.post(`/bot${telegram.TOKEN}`, (req, res) => {
+router.post(`/bot${Config.telegram.token}`, (req, res) => {
   telegram.bot.processUpdate(req.body);
   res.sendStatus(200);
 });

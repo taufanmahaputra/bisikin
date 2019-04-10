@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var telegram = require('../modules/telegram');
+const express = require('express');
+const router = express.Router();
+const telegram = require('../modules/telegram');
 
 /* POST push message. */
 router.post('/', (req, res) => {
