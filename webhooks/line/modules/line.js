@@ -103,6 +103,7 @@ const activatePlatformSpecificCompany = async (username, password, companyToken,
 }
 
 module.exports = {
+  client,
   sendReplyMessage,
   sendCustomReplyMessage,
   sendReplyWrongCommandMessage,
