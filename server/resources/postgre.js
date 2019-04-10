@@ -33,6 +33,11 @@ class Postgre {
     return await this.client.query(query, params)
   }
 
+  getUserDetailByUsername = async (username) => {
+    return await this.client.query('SELECT * FROM users u INNER JOIN user_subscribes us2 ' +
+      'ON u.id = us2.user_id WHERE u.username = $1', [username])
+  }
+
   getListSubscriberByCompanyID = async (companyID) => {
     return await this.client.query('SELECT u.id, active_line, active_telegram, active_whatsapp, full_name, username ' +
       'FROM user_subscribes INNER JOIN users u on user_subscribes.user_id = u.id ' +

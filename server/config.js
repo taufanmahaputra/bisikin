@@ -10,5 +10,9 @@ export default {
     db: process.env.DATABASE_NAME,
     password: process.env.DATABASE_PASSWORD,
     port: process.env.DATABASE_PORT
+  },
+  service: {
+    line: process.env.SERVICE_LINE,
+    telegram: process.env.SERVICE_TELEGRAM
   }
 }

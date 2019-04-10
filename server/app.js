@@ -9,6 +9,7 @@ import * as JWT from './modules/auth_jwt'
 import indexRouter from './routes/index'
 import authRouter from './routes/api/v1/auth'
 import companyRouter from './routes/api/v1/company'
+import messageRouter from './routes/api/v1/message'
 
 class Application {
   constructor() {
@@ -32,6 +33,7 @@ class Application {
     this.app.use('/', indexRouter)
     this.app.use('/api/v1/auth', authRouter)
     this.app.use('/api/v1/company', JWT.verifyTokenRequest, companyRouter)
+    this.app.use('/api/v1/message', JWT.verifyTokenRequest, messageRouter)
   }
 }
 
