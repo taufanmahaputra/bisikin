@@ -27,9 +27,16 @@ class Postgre {
     return await this.client.query('SELECT * FROM users WHERE username = $1', [username])
   }
 
-  insertNewUser = async (username, fullName, mobilePhone, lineId, passwordHash) => {
-    const query = 'INSERT INTO users(username, full_name, mobile_phone, line_id, password) VALUES ($1, $2, $3, $4, $5)'
-    const params = [username, fullName, mobilePhone, lineId, passwordHash]
+  insertNewUser = async (username, fullName, mobilePhone, passwordHash) => {
+    const query = 'INSERT INTO users(username, full_name, mobile_phone, password) VALUES ($1, $2, $3, $4)'
+    const params = [username, fullName, mobilePhone, passwordHash]
+
+    await this.client.query(query, params)
+  }
+
+  updateLineIdIfNull = async (username, lineId) => {
+    const query = 'UPDATE users SET line_id = $1 WHERE username = $2 AND line_id ISNULL'
+    const params = [lineId, username]
 
     await this.client.query(query, params)
   }

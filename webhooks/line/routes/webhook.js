@@ -11,7 +11,7 @@ router.post('/', (req, res) => {
 
 const handleEvent = (event) => {
   const replyToken = event.replyToken;
-  const userId = event.source.userId;
+  const lineId = event.source.userId;
 
   if (event.type !== 'message' || event.message.type !== 'text') {
     return Promise.resolve()
@@ -23,9 +23,9 @@ const handleEvent = (event) => {
   
   switch (keyword) {
     case '/register':
-      return handleRegisterEvent(replyToken, userId, text)
+      return handleRegisterEvent(replyToken, text)
     case '/subscribe':
-      return handleSubscribeEvent(replyToken, text)
+      return handleSubscribeEvent(replyToken, lineId, text)
     case '/activate':
       return handleActivateEvent(replyToken, text, true)
     case '/deactivate':
@@ -39,22 +39,22 @@ const handleEvent = (event) => {
   }
 }
 
-const handleRegisterEvent = async (replyToken, userId, text) => {
+const handleRegisterEvent = async (replyToken, text) => {
   const fullName = text[0]
   const username = text[1]
   const mobilePhone = text[2]
 
 
-  const response = await line.insertNewUser(fullName, username, mobilePhone, userId)
+  const response = await line.insertNewUser(fullName, username, mobilePhone)
   return line.sendReplyMessage(replyToken, response);
 }
 
-const handleSubscribeEvent = async (replyToken, text) => {
+const handleSubscribeEvent = async (replyToken, lineId, text) => {
   const username = text[0]
   const password = text[1]
   const companyToken = text[2]
 
-  const response = await line.subscribeCompany(username, password, companyToken)
+  const response = await line.subscribeCompany(username, password, companyToken, lineId)
   return line.sendReplyMessage(replyToken, response)
 }
 

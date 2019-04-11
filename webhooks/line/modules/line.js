@@ -25,13 +25,13 @@ const sendReplyWrongCommandMessage = (token) => client.replyMessage(
     text: 'Wrong input. Type /help for more.'
   })
 
-const insertNewUser = async (fullName, username, mobilePhone, lineId) => {
+const insertNewUser = async (fullName, username, mobilePhone) => {
   const {password, passwordHash} = createHashPassword()
 
   let response = `Success!\nThis is your secret password for LOGIN. DO NOT GIVE IT TO ANYONE.\nYour PASSWORD is ${password}`
 
   try {
-    await Postgre.insertNewUser(username, fullName, mobilePhone, lineId, passwordHash)
+    await Postgre.insertNewUser(username, fullName, mobilePhone, passwordHash)
   } catch (e) {
     console.log(e)
     response = 'Failed. Your username already exist.'
@@ -40,7 +40,7 @@ const insertNewUser = async (fullName, username, mobilePhone, lineId) => {
   return response
 }
 
-const subscribeCompany = async (username, password, companyToken) => {
+const subscribeCompany = async (username, password, companyToken, lineId) => {
   let resultQuery
   let response
 
@@ -62,6 +62,7 @@ const subscribeCompany = async (username, password, companyToken) => {
   response = `You have successfully subscribed to *${company.company_name}* through the LINE platform.`
 
   try {
+    await Postgre.updateLineIdIfNull(username, lineId)
     await Postgre.insertNewSubscriber(company.id, user.id)
   } catch (e) {
     console.log(e)
