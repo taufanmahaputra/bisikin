@@ -5,5 +5,6 @@ const router = Router();
 
 /* POST a message to single user. */
 router.post('/', messageController.handleSendMessageToSingleUser);
+router.post('/multicast', messageController.handleSendMulticastMessage)
 
 module.exports = router;
