@@ -27,17 +27,24 @@ class Postgre {
     return await this.client.query('SELECT * FROM users WHERE username = $1', [username])
   }
 
-  insertNewUser = async (username, fullName, mobilePhone, lineId, passwordHash) => {
-    const query = 'INSERT INTO users(username, full_name, mobile_phone, line_id, password) VALUES ($1, $2, $3, $4, $5)'
-    const params = [username, fullName, mobilePhone, lineId, passwordHash]
+  insertNewUser = async (username, fullName, mobilePhone, passwordHash) => {
+    const query = 'INSERT INTO users(username, full_name, mobile_phone, password) VALUES ($1, $2, $3, $4)'
+    const params = [username, fullName, mobilePhone, passwordHash]
+
+    await this.client.query(query, params)
+  }
+
+  updateTelegramIdIfNull = async (username, telegramId) => {
+    const query = 'UPDATE users SET telegram_id = $1 WHERE username = $2 AND telegram_id ISNULL'
+    const params = [telegramId, username]
 
     await this.client.query(query, params)
   }
 
   insertNewSubscriber = async (companyId, userId) => {
-    const query = 'INSERT INTO user_subscribes(company_id, user_id, active_line) VALUES ($1, $2, $3) ' +
+    const query = 'INSERT INTO user_subscribes(company_id, user_id, active_telegram) VALUES ($1, $2, $3) ' +
       'ON CONFLICT (company_id, user_id) ' +
-      'DO UPDATE SET active_line = EXCLUDED.active_line'
+      'DO UPDATE SET active_telegram = EXCLUDED.active_telegram'
     const params = [companyId, userId, true]
 
     await this.client.query(query, params)

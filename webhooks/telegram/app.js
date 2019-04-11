@@ -5,6 +5,7 @@ import logger from 'morgan'
 
 import Postgre from './resources/postgre'
 
+import Telegram from './routes/webhook'
 import indexRouter from './routes/index'
 import messageRouter from './routes/message'
 
@@ -29,6 +30,8 @@ class Application {
 
     this.app.use('/', indexRouter)
     this.app.use('/message', messageRouter)
+
+    Telegram.__init()
   }
 }
 

@@ -1,5 +1,7 @@
 import TelegramBot from 'node-telegram-bot-api';
 import Config from '../config'
+import {createHash, createHashPassword, isValidHashPassword} from '../utils/hash'
+import Postgre from '../resources/postgre'
 
 const TOKEN = Config.telegram.token;
 
@@ -7,17 +9,61 @@ const bot = new TelegramBot(TOKEN);
 
 bot.setWebHook(`https://bisikin-telegram.serveo.net/bot${TOKEN}`);
 
-bot.on('message', function onMessage(msg) {
-  console.log(msg)
-  const replyToken = msg.chat.id;
+const sendReplyMessage = (token, msg) => bot.sendMessage(token, msg, {parse_mode: 'markdown'})
 
-  const message = msg.text;
-  const keyword = message.split(' ')[0];
-  const text = message.slice(keyword.length + 1).split('#');
+const sendReplyWrongCommandMessage = (token) => bot.sendMessage(token, 'Wrong input. Type /help for more.')
 
-  bot.sendMessage(msg.chat.id, msg.text);
-});
+const insertNewUser = async (fullName, username, mobilePhone) => {
+  const {password, passwordHash} = createHashPassword()
+
+  let response = `Success!\nThis is your secret password for LOGIN. DO NOT GIVE IT TO ANYONE.\nYour PASSWORD is ${password}`
+
+  try {
+    await Postgre.insertNewUser(username, fullName, mobilePhone, passwordHash)
+  } catch (e) {
+    console.log(e)
+    response = 'Failed. Your username already exist.'
+  }
+
+  return response
+}
+
+const subscribeCompany = async (username, password, companyToken, telegramId) => {
+  let resultQuery
+  let response
+
+  resultQuery = await Postgre.getCompanyIdAndNameByCompanyToken(companyToken)
+  const company = resultQuery.rows[0]
+
+  resultQuery = await Postgre.getUserDetailByUsername(username)
+  const user = resultQuery.rows[0]
+
+  if (company === undefined || user === undefined) {
+    return `Data does not exist. Please check either your username or company's token.`
+  }
+
+  const hash = createHash(password)
+  if (!isValidHashPassword(user.password, hash)) {
+    return 'Password invalid.'
+  }
+
+  response = `You have successfully subscribed to *${company.company_name}* through the Telegram platform.`
+
+  try {
+    await Postgre.updateTelegramIdIfNull(username, telegramId)
+    await Postgre.insertNewSubscriber(company.id, user.id)
+  } catch (e) {
+    console.log(e)
+    response = `You already subscribed to *${company.company_name}*`
+  }
+
+  return response
+}
 
 export {
-  bot
+  bot,
+  sendReplyMessage,
+  sendReplyWrongCommandMessage,
+  insertNewUser,
+  subscribeCompany
 }
