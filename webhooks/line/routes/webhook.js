@@ -68,15 +68,18 @@ const handleActivateEvent = async (replyToken, text, status) => {
 }
 
 const handleKeywordEvent = (replyToken) => {
-  const body = `These are the keywords available. All keywords filled with arguments separated by hashtag:
-  -    /register
-       FULL_NAME#USERNAME#WHATSAPP_NUMBER
-       
-  -    /subscribe  |  /activate  |  /deactivate
-       USERNAME#PASSWORD#COMPANY_TOKEN
-       
-  -    /help
-  `
+  const body = `
+[REGISTER]
+/register <space> FULL NAME#USERNAME#WHATSAPP NUMBER
+
+[SUBSCRIBE]
+/subscribe <space> USERNAME#PASSWORD#COMPANY CODE
+
+[ACTIVATE]
+/activate <space> USERNAME#PASSWORD#COMPANY CODE
+
+[DEACTIVATE]
+/deactivate <space> USERNAME#PASSWORD#COMPANY CODE`
 
   return line.sendReplyMessage(replyToken, body);
 }

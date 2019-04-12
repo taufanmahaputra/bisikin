@@ -50,8 +50,8 @@ class Postgre {
     await this.client.query(query, params)
   }
 
-  updateStatusActiveLine = async(companyId, userId, status) => {
-    const query = 'UPDATE user_subscribes SET active_line = $1 WHERE company_id = $2 AND user_id = $3'
+  updateStatusActiveTelegram = async(companyId, userId, status) => {
+    const query = 'UPDATE user_subscribes SET active_telegram = $1 WHERE company_id = $2 AND user_id = $3'
     const params = [status, companyId, userId]
 
     await this.client.query(query, params)
