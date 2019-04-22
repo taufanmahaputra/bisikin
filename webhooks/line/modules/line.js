@@ -22,7 +22,7 @@ const sendReplyWrongCommandMessage = (token) => client.replyMessage(
   token,
   {
     type: 'text',
-    text: 'Wrong input. Type /help for more.'
+    text: 'Wrong input. Type /keywords for more.'
   })
 
 const insertNewUser = async (fullName, username, mobilePhone) => {

@@ -1,4 +1,5 @@
 import * as telegram from '../modules/telegram'
+import line from "../../line/modules/line"
 
 class Telegram {
   __init = () => {
@@ -28,7 +29,15 @@ class Telegram {
       }
     });
 
+    const isValidParameters = (params) => {
+      return params.indexOf('') === -1 && params.length === 3
+    }
+
     const handleRegisterEvent = async (replyToken, text) => {
+      if (!isValidParameters(text)) {
+        return line.sendReplyWrongCommandMessage(replyToken)
+      }
+
       const fullName = text[0]
       const username = text[1]
       const mobilePhone = text[2]
@@ -39,6 +48,10 @@ class Telegram {
     }
 
     const handleSubscribeEvent = async (replyToken, telegramId, text) => {
+      if (!isValidParameters(text)) {
+        return line.sendReplyWrongCommandMessage(replyToken)
+      }
+
       const username = text[0]
       const password = text[1]
       const companyToken = text[2]
@@ -48,6 +61,10 @@ class Telegram {
     }
 
     const handleActivateEvent = async (replyToken, text, status) => {
+      if (!isValidParameters(text)) {
+        return line.sendReplyWrongCommandMessage(replyToken)
+      }
+
       const username = text[0]
       const password = text[1]
       const companyToken = text[2]

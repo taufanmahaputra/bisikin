@@ -11,7 +11,7 @@ bot.setWebHook(`https://bisikin-telegram.serveo.net/bot${TOKEN}`);
 
 const sendReplyMessage = (token, msg) => bot.sendMessage(token, msg, {parse_mode: 'markdown'})
 
-const sendReplyWrongCommandMessage = (token) => bot.sendMessage(token, 'Wrong input. Type /help for more.')
+const sendReplyWrongCommandMessage = (token) => bot.sendMessage(token, 'Wrong input. Type /keywords for more.')
 
 const insertNewUser = async (fullName, username, mobilePhone) => {
   const {password, passwordHash} = createHashPassword()
