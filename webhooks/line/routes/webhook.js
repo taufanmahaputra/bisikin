@@ -20,7 +20,7 @@ const handleEvent = (event) => {
   const message = event.message.text;
   const keyword = message.split(' ')[0];
   const text = message.slice(keyword.length + 1).split('#');
-  
+
   switch (keyword) {
     case '/register':
       return handleRegisterEvent(replyToken, text)
@@ -39,7 +39,15 @@ const handleEvent = (event) => {
   }
 }
 
+const isValidParameters = (params) => {
+  return params.indexOf('') === -1 && params.length === 3
+}
+
 const handleRegisterEvent = async (replyToken, text) => {
+  if (!isValidParameters(text)) {
+    return line.sendReplyWrongCommandMessage(replyToken)
+  }
+
   const fullName = text[0]
   const username = text[1]
   const mobilePhone = text[2]
@@ -50,6 +58,10 @@ const handleRegisterEvent = async (replyToken, text) => {
 }
 
 const handleSubscribeEvent = async (replyToken, lineId, text) => {
+  if (!isValidParameters(text)) {
+    return line.sendReplyWrongCommandMessage(replyToken)
+  }
+
   const username = text[0]
   const password = text[1]
   const companyToken = text[2]
@@ -59,6 +71,10 @@ const handleSubscribeEvent = async (replyToken, lineId, text) => {
 }
 
 const handleActivateEvent = async (replyToken, text, status) => {
+  if (!isValidParameters(text)) {
+    return line.sendReplyWrongCommandMessage(replyToken)
+  }
+
   const username = text[0]
   const password = text[1]
   const companyToken = text[2]
