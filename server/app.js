@@ -2,6 +2,7 @@ import express from 'express'
 import path from 'path'
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
+import cors from 'cors'
 
 import Postgre from './resources/postgre'
 import * as JWT from './modules/auth_jwt'
@@ -24,6 +25,7 @@ class Application {
      */
 
     this.app = express()
+    this.app.use(cors())
     this.app.use(logger('dev'))
     this.app.use(express.json())
     this.app.use(express.urlencoded({extended: false}))

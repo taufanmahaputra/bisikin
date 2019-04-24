@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET Index. */
+/* GET App. */
 router.get('/', function(req, res) {
   res.json({title: 'Bisikin - API Service', status: 'OK'});
 });
