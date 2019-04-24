@@ -1,6 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import { applyMiddleware, createStore, combineReducers, compose } from "redux"
+import { reducer as formReducer } from 'redux-form'
 import { connectRouter, routerMiddleware } from "connected-react-router"
 import { createBrowserHistory } from "history"
 
@@ -9,6 +10,7 @@ import Routes from './routes'
 const history = createBrowserHistory()
 const reducer = {
   router: connectRouter(history),
+  form: formReducer
 }
 
 const store = createStore(

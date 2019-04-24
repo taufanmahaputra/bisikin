@@ -4,6 +4,8 @@ import { Route, Switch } from 'react-router'
 import { ConnectedRouter } from 'connected-react-router'
 
 import App from './pages/App'
+import LoginPage from './pages/Login'
+import RegisterPage from './pages/Register'
 import Message from './pages/Message'
 
 export default (store, history) => {
@@ -12,8 +14,8 @@ export default (store, history) => {
       <ConnectedRouter history={history}>
         <>
         <Switch>
-          <Route exact path="/" render={() => (<div>Match</div>)} />
-          <Route exact path='/wtf' render={() => (<div>h3h3</div>)} />
+          <Route exact path='/login' component={LoginPage} />
+          <Route exact path='/signup' component={RegisterPage} />
           {/*<Route exact path='/message' component={Message} />*/}
           <Route component={App}>
             <Route path='/message' component={Message}/>
