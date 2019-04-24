@@ -1,9 +1,11 @@
 import './styles.css'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
+import { Link } from "react-router-dom"
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import { Link } from "react-router-dom"
+import AlertDanger from '../../../components/Alert/Danger'
 
 const validate = values => {
   const errors = {}
@@ -41,7 +43,7 @@ const renderTextField = ({ label,
 class LoginForm extends Component {
 
   render() {
-    const { handleSubmit } = this.props
+    const { handleSubmit, errorLogin } = this.props
     return (
       <div className='container'>
         <form className='login-form' onSubmit={handleSubmit}>
@@ -49,6 +51,7 @@ class LoginForm extends Component {
             <img src='https://i.imgur.com/CeIhNSt.png' className='rounded logo' />
             <h4 className='logo-text pt-3'>Log in to Bisikin</h4>
           </div>
+          {errorLogin.show && <AlertDanger className='row mt-3' message={errorLogin.message}/>}
           <div className='row'>
             <Field name='input'
                    component={renderTextField}
@@ -83,6 +86,14 @@ class LoginForm extends Component {
 
 const form = {
   form: 'login',
+  enableReinitialize: true,
   validate
 }
-export default reduxForm(form)(LoginForm)
+
+const mapStateToProps = (state) => {
+  return {
+    errorLogin: state.notif.errorLogin
+  }
+}
+
+export default connect(mapStateToProps)(reduxForm(form)(LoginForm))

@@ -1,7 +1,16 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { replace } from 'connected-react-router'
+import { onClickLoginButtonSubmit } from '../../actions/auth'
 import LoginForm from '../../components/Form/LoginForm'
 
 class Login extends Component {
+  componentWillMount() {
+    if (this.props.loggedIn) {
+      replace('/dashboard')
+    }
+  }
+
   render() {
     return (
       <LoginForm onSubmit={this._onSubmitLoginForm}/>
@@ -9,9 +18,15 @@ class Login extends Component {
   }
 
   _onSubmitLoginForm = (values) => {
-    //TODO: dispatch to request api
-    console.log(values)
+    this.props.onClickLoginButtonSubmit(values)
   }
 }
 
-export default Login
+const mapStateToProps = (state) => {
+  return {
+    loggedIn: state.app.loggedIn
+  }
+}
+const mapDispatchToProps = { replace, onClickLoginButtonSubmit}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

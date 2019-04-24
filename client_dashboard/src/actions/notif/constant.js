@@ -1,0 +1,1 @@
+export const SET_ERROR_LOGIN = 'SET_ERROR_LOGIN'
