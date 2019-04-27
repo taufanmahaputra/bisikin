@@ -27,6 +27,6 @@ const mapStateToProps = (state) => {
     loggedIn: state.app.loggedIn
   }
 }
-const mapDispatchToProps = { replace, onClickLoginButtonSubmit}
+const mapDispatchToProps = { replace, onClickLoginButtonSubmit }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

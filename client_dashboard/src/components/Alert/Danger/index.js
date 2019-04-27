@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { setErrorLogin } from '../../../actions/notif'
+import { setErrorAlert } from '../../../actions/notif'
 
 class Danger extends Component {
   componentWillUnmount() {
-    this.props.setErrorLogin({show: false})
+    this.props.setErrorAlert({show: false})
   }
 
   render() {
@@ -17,5 +17,5 @@ class Danger extends Component {
   }
 }
 
-const mapDispatchToProps = { setErrorLogin }
+const mapDispatchToProps = { setErrorAlert }
 export default connect(null, mapDispatchToProps)(Danger)

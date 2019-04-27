@@ -1,7 +1,7 @@
 import {
-  SET_ERROR_LOGIN
+  SET_ERROR_ALERT
 } from './constant'
 
-export function setErrorLogin(value) {
-  return { type: SET_ERROR_LOGIN, payload: { value } }
+export function setErrorAlert(value) {
+  return { type: SET_ERROR_ALERT, payload: { value } }
 }

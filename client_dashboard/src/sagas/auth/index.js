@@ -20,10 +20,24 @@ function* onClickSubmitLogin(request) {
     yield put(actApp.setIsLogin(true))
     yield put(push('/dashboard'))
   } catch (e) {
-    yield put(actNotif.setErrorLogin({show: true, message: e.response.data.message}))
+    yield put(actNotif.setErrorAlert({show: true, message: e.response.data.message}))
+  }
+}
+
+function* onClickSubmitSignup(request) {
+  const { payload } = request
+  
+  try {
+    const response = yield call(apiAuth.registerUser, payload.values)
+
+    console.log(response)
+    yield put(push('/login'))
+  } catch (e) {
+    yield put(actNotif.setErrorAlert({show: true, message: e.response.data.message}))
   }
 }
 
 export default function* authSaga() {
   yield takeLatest(ON_CLICK_LOGIN_BUTTON_SUBMIT, onClickSubmitLogin)
+  yield takeLatest(ON_CLICK_SIGNUP_BUTTON_SUBMIT, onClickSubmitSignup)
 }

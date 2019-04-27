@@ -1,9 +1,9 @@
 import {
-  SET_ERROR_LOGIN
+  SET_ERROR_ALERT
 } from '../../actions/notif/constant'
 
 let initialState = {
-  errorLogin:  {
+  errorAlert:  {
     show: false,
     message: null
   }
@@ -12,8 +12,8 @@ let initialState = {
 const reducer = (state = initialState, action) => {
   const {payload = {}} = action
   switch (action.type) {
-    case SET_ERROR_LOGIN:
-      return {...state, errorLogin: {show: payload.value.show, message: payload.value.message}}
+    case SET_ERROR_ALERT:
+      return {...state, errorAlert: {show: payload.value.show, message: payload.value.message}}
     default:
       return {...state}
   }

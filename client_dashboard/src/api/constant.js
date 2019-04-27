@@ -4,3 +4,4 @@ const SERVICE_HOST = 'http://localhost'
 const HOST = `${SERVICE_HOST}:${SERVICE_PORT}`
 
 export const LOGIN_URL = `${HOST}/api/v1/auth/login`
+export const REGISTER_URL = `${HOST}/api/v1/auth/register`

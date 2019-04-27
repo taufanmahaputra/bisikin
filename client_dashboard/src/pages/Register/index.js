@@ -1,7 +1,16 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { replace } from 'connected-react-router'
+import { onClickSignupBUttonSubmit } from '../../actions/auth'
 import RegisterForm from '../../components/Form/RegisterForm'
 
 class Register extends Component {
+  componentWillMount() {
+    if (this.props.loggedIn) {
+      replace('/dashboard')
+    }
+  }
+
   render() {
     return (
       <RegisterForm onSubmit={this._onSubmitRegisterForm}/>
@@ -9,9 +18,15 @@ class Register extends Component {
   }
 
   _onSubmitRegisterForm = (values) => {
-    //TODO: dispatch to request api
-    console.log(values)
+    this.props.onClickSignupBUttonSubmit(values)
   }
 }
 
-export default Register
+const mapStateToProps = (state) => {
+  return {
+    loggedIn: state.app.loggedIn
+  }
+}
+const mapDispatchToProps = { replace, onClickSignupBUttonSubmit }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register)

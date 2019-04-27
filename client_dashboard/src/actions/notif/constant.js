@@ -1,1 +1,1 @@
-export const SET_ERROR_LOGIN = 'SET_ERROR_LOGIN'
+export const SET_ERROR_ALERT = 'SET_ERROR_ALERT'

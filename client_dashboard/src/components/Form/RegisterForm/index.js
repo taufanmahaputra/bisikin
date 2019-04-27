@@ -1,9 +1,11 @@
 import './styles.css'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom'
+import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
+import AlertDanger from '../../../components/Alert/Danger'
 
 const validate = values => {
   const errors = {}
@@ -25,7 +27,8 @@ const validate = values => {
   return errors
 }
 
-const renderTextField = ({ label,
+const renderTextField = ({
+                           label,
                            type,
                            input,
                            meta: { touched, invalid, error },
@@ -48,21 +51,22 @@ const renderTextField = ({ label,
 class RegisterForm extends Component {
 
   render() {
-    const { handleSubmit } = this.props
+    const { handleSubmit, errorAlert } = this.props
     return (
       <div className='container'>
         <form className='login-form' onSubmit={handleSubmit}>
           <div className='text-center'>
-            <img src='https://i.imgur.com/CeIhNSt.png' className='rounded logo' />
+            <img src='https://i.imgur.com/CeIhNSt.png' className='rounded logo'/>
             <h4 className='logo-text pt-3'>Sign up to Bisikin</h4>
           </div>
+          {errorAlert.show && <AlertDanger className='row mt-3' message={errorAlert.message}/>}
           <div className='row'>
             <div className='col'>
               <Field name='token'
                      component={renderTextField}
                      label='Company Username'
                      type='text'
-                     helperText='This username will be used as an identification to your target user.' />
+                     helperText='This username will be used as an identification to your target user.'/>
             </div>
           </div>
           <div className='row'>
@@ -76,7 +80,7 @@ class RegisterForm extends Component {
               <Field name='last_name'
                      component={renderTextField}
                      label='Last Name'
-                     type='text' />
+                     type='text'/>
             </div>
           </div>
           <div className='row'>
@@ -84,13 +88,13 @@ class RegisterForm extends Component {
               <Field name='company_name'
                      component={renderTextField}
                      label='Company Name'
-                     type='text' />
+                     type='text'/>
             </div>
             <div className='col-sm'>
               <Field name='url'
                      component={renderTextField}
                      label='Company URL'
-                     type='url' />
+                     type='url'/>
             </div>
           </div>
           <div className='row'>
@@ -98,13 +102,13 @@ class RegisterForm extends Component {
               <Field name='email'
                      component={renderTextField}
                      label='Email'
-                     type='email' />
+                     type='email'/>
             </div>
             <div className='col-sm'>
               <Field name='password'
                      component={renderTextField}
                      label='Password'
-                     type='password' />
+                     type='password'/>
             </div>
           </div>
           <div className='row'>
@@ -112,13 +116,13 @@ class RegisterForm extends Component {
               <Field name='phone'
                      component={renderTextField}
                      label='Phone'
-                     type='tel' />
+                     type='tel'/>
             </div>
             <div className='col-sm'>
               <Field name='mobile_phone'
                      component={renderTextField}
                      label='Mobile Phone'
-                     type='tel' />
+                     type='tel'/>
             </div>
           </div>
           <div className='row pt-3'>
@@ -126,7 +130,7 @@ class RegisterForm extends Component {
                     color='secondary'
                     type='submit'
                     size='large'
-                    fullWidth >
+                    fullWidth>
               <span className='login-text'> Sign up</span>
             </Button>
           </div>
@@ -145,4 +149,11 @@ const form = {
   form: 'register',
   validate
 }
-export default reduxForm(form)(RegisterForm)
+
+const mapStateToProps = (state) => {
+  return {
+    errorAlert: state.notif.errorAlert
+  }
+}
+
+export default connect(mapStateToProps)(reduxForm(form)(RegisterForm))
