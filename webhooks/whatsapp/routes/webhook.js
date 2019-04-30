@@ -24,6 +24,10 @@ const handleEvent = (event) => {
       return handleActivateEvent(replyToken, text, true)
     case '/deactivate':
       return handleActivateEvent(replyToken, text, false)
+    case '/keywords':
+      return handleKeywordEvent(replyToken)
+    case '/help':
+
     default:
       return whatsapp.sendReplyWrongCommandMessage(replyToken)
   }
@@ -70,6 +74,23 @@ const handleActivateEvent = async (replyToken, text, status) => {
 
   const response = await whatsapp.activatePlatformSpecificCompany(username, password, companyToken, status)
   return whatsapp.sendReplyMessage(replyToken, response)
+}
+
+const handleKeywordEvent = (replyToken) => {
+  const body = `
+[REGISTER]
+/register <space> FULL NAME#USERNAME#PASSWORD
+
+[SUBSCRIBE]
+/subscribe <space> USERNAME#PASSWORD#COMPANY CODE
+
+[ACTIVATE]
+/activate <space> USERNAME#PASSWORD#COMPANY CODE
+
+[DEACTIVATE]
+/deactivate <space> USERNAME#PASSWORD#COMPANY CODE`
+
+  return whatsapp.sendReplyMessage(replyToken, body);
 }
 
 module.exports = router
