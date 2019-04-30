@@ -50,10 +50,10 @@ const handleRegisterEvent = async (replyToken, text) => {
 
   const fullName = text[0]
   const username = text[1]
-  const mobilePhone = text[2]
+  const password = text[2]
 
 
-  const response = await line.insertNewUser(fullName, username, mobilePhone)
+  const response = await line.insertNewUser(fullName, username, password)
   return line.sendReplyMessage(replyToken, response);
 }
 
@@ -86,7 +86,7 @@ const handleActivateEvent = async (replyToken, text, status) => {
 const handleKeywordEvent = (replyToken) => {
   const body = `
 [REGISTER]
-/register <space> FULL NAME#USERNAME#WHATSAPP NUMBER
+/register <space> FULL NAME#USERNAME#PASSWORD
 
 [SUBSCRIBE]
 /subscribe <space> USERNAME#PASSWORD#COMPANY CODE
