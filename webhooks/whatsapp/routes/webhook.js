@@ -9,7 +9,7 @@ router.post('/', (req, res) => {
 
 const handleEvent = (event) => {
   const replyToken = event.From
-  const mobile_phone = event.From
+  const mobilePhone = event.From
 
   const message = event.Body
   const keyword = message.split(' ')[0]
@@ -18,6 +18,8 @@ const handleEvent = (event) => {
   switch (keyword) {
     case '/register':
       return handleRegisterEvent(replyToken, text)
+    case '/subscribe':
+      return handleSubscribeEvent(replyToken, mobilePhone, text)
     default:
       return whatsapp.sendReplyWrongCommandMessage(replyToken)
   }
@@ -37,6 +39,19 @@ const handleRegisterEvent = async (replyToken, text) => {
   const password = text[2]
 
   const response = await whatsapp.insertNewUser(fullName, username, password)
+  return whatsapp.sendReplyMessage(replyToken, response)
+}
+
+const handleSubscribeEvent = async (replyToken, mobilePhone, text) => {
+  if (!isValidParameters(text)) {
+    return whatsapp.sendReplyWrongCommandMessage(replyToken)
+  }
+
+  const username = text[0]
+  const password = text[1]
+  const companyToken = text[2]
+
+  const response = await whatsapp.subscribeCompany(username, password, companyToken, mobilePhone)
   return whatsapp.sendReplyMessage(replyToken, response)
 }
 

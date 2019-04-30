@@ -1,7 +1,7 @@
 import twilio from 'twilio'
 import Config from '../config'
 import Postgre from '../resources/postgre'
-import { createHash } from '../utils/hash'
+import { createHash, isValidHashPassword } from '../utils/hash'
 
 const client = twilio(Config.whatsapp.accountSid, Config.whatsapp.authToken)
 const SENDER = Config.whatsapp.number
@@ -40,9 +40,42 @@ const insertNewUser = async (fullName, username, password) => {
   return response
 }
 
+const subscribeCompany = async (username, password, companyToken, mobilePhone) => {
+  let resultQuery
+  let response
+
+  resultQuery = await Postgre.getCompanyIdAndNameByCompanyToken(companyToken)
+  const company = resultQuery.rows[0]
+
+  resultQuery = await Postgre.getUserDetailByUsername(username)
+  const user = resultQuery.rows[0]
+
+  if (company === undefined || user === undefined) {
+    return `Data does not exist. Please check either your username or company's token.`
+  }
+
+  const hash = createHash(password)
+  if (!isValidHashPassword(user.password, hash)) {
+    return 'Password invalid.'
+  }
+
+  response = `You have successfully subscribed to *${company.company_name}* through the Whatsapp platform.`
+
+  try {
+    await Postgre.updateMobilePhoneIfNull(username, mobilePhone)
+    await Postgre.insertNewSubscriber(company.id, user.id)
+  } catch (e) {
+    console.log(e)
+    response = `You already subscribed to *${company.company_name}*`
+  }
+
+  return response
+}
+
 module.exports = {
   client,
   sendReplyMessage,
   sendReplyWrongCommandMessage,
-  insertNewUser
+  insertNewUser,
+  subscribeCompany
 }
