@@ -7,6 +7,7 @@ import Postgre from './resources/postgre'
 
 import indexRouter from './routes/index'
 import webhookRouter from './routes/webhook'
+import messageRouter from './routes/message'
 
 class Application {
   constructor() {
@@ -29,6 +30,7 @@ class Application {
 
     this.app.use('/', indexRouter)
     this.app.use('/webhook', webhookRouter)
+    this.app.use('/message', messageRouter)
   }
 }
 
