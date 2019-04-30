@@ -20,6 +20,10 @@ const handleEvent = (event) => {
       return handleRegisterEvent(replyToken, text)
     case '/subscribe':
       return handleSubscribeEvent(replyToken, mobilePhone, text)
+    case '/activate':
+      return handleActivateEvent(replyToken, text, true)
+    case '/deactivate':
+      return handleActivateEvent(replyToken, text, false)
     default:
       return whatsapp.sendReplyWrongCommandMessage(replyToken)
   }
@@ -52,6 +56,19 @@ const handleSubscribeEvent = async (replyToken, mobilePhone, text) => {
   const companyToken = text[2]
 
   const response = await whatsapp.subscribeCompany(username, password, companyToken, mobilePhone)
+  return whatsapp.sendReplyMessage(replyToken, response)
+}
+
+const handleActivateEvent = async (replyToken, text, status) => {
+  if (!isValidParameters(text)) {
+    return whatsapp.sendReplyWrongCommandMessage(replyToken)
+  }
+
+  const username = text[0]
+  const password = text[1]
+  const companyToken = text[2]
+
+  const response = await whatsapp.activatePlatformSpecificCompany(username, password, companyToken, status)
   return whatsapp.sendReplyMessage(replyToken, response)
 }
 

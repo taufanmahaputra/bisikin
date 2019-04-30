@@ -72,10 +72,42 @@ const subscribeCompany = async (username, password, companyToken, mobilePhone) =
   return response
 }
 
+const activatePlatformSpecificCompany = async (username, password, companyToken, status) => {
+  let resultQuery
+  let response
+
+  resultQuery = await Postgre.getCompanyIdAndNameByCompanyToken(companyToken)
+  const company = resultQuery.rows[0]
+
+  resultQuery = await Postgre.getUserDetailByUsername(username)
+  const user = resultQuery.rows[0]
+
+  if (company === undefined || user === undefined) {
+    return `Data does not exist. Please check either your username or company's token.`
+  }
+
+  const hash = createHash(password)
+  if (!isValidHashPassword(user.password, hash)) {
+    return 'Password invalid.'
+  }
+
+  response = (status === true) ? 'Activated' : 'Deactivated'
+  response += ` *${company.company_name}* on Whatsapp platform.`
+
+  try {
+    await Postgre.updateStatusActiveWhatsapp(company.id, user.id, status)
+  } catch (e) {
+    console.log(e)
+  }
+
+  return response
+}
+
 module.exports = {
   client,
   sendReplyMessage,
   sendReplyWrongCommandMessage,
   insertNewUser,
-  subscribeCompany
+  subscribeCompany,
+  activatePlatformSpecificCompany
 }
