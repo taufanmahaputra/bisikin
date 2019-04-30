@@ -1,20 +1,36 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+import express from 'express'
+import path from 'path'
+import cookieParser from 'cookie-parser'
+import logger from 'morgan'
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+import Postgre from './resources/postgre'
 
-var app = express();
+import indexRouter from './routes/index'
+import webhookRouter from './routes/webhook'
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+class Application {
+  constructor() {
+    /*
+     DATABASE SETUP
+     */
+    Postgre.__init()
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
-module.exports = app;
+    /*
+     APPLICATION SETUP
+     */
+
+    this.app = express()
+    this.app.use(logger('dev'))
+    this.app.use(express.json())
+    this.app.use(express.urlencoded({extended: false}))
+    this.app.use(cookieParser())
+    this.app.use(express.static(path.join(__dirname, 'public')))
+
+    this.app.use('/', indexRouter)
+    this.app.use('/webhook', webhookRouter)
+  }
+}
+
+
+module.exports = new Application()
