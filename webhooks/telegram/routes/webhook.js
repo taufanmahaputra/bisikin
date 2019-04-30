@@ -75,7 +75,7 @@ class Telegram {
     const handleKeywordEvent = (replyToken) => {
       const body = `
 [REGISTER]
-/register <space> FULL NAME#USERNAME#WHATSAPP NUMBER
+/register <space> FULL NAME#USERNAME#PASSWORD
 
 [SUBSCRIBE]
 /subscribe <space> USERNAME#PASSWORD#COMPANY CODE

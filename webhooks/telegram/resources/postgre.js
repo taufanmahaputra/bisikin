@@ -27,9 +27,9 @@ class Postgre {
     return await this.client.query('SELECT * FROM users WHERE username = $1', [username])
   }
 
-  insertNewUser = async (username, fullName, mobilePhone, passwordHash) => {
-    const query = 'INSERT INTO users(username, full_name, mobile_phone, password) VALUES ($1, $2, $3, $4)'
-    const params = [username, fullName, mobilePhone, passwordHash]
+  insertNewUser = async (username, fullName, passwordHash) => {
+    const query = 'INSERT INTO users(username, full_name, password) VALUES ($1, $2, $3)'
+    const params = [username, fullName, passwordHash]
 
     await this.client.query(query, params)
   }

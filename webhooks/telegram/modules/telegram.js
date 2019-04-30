@@ -13,13 +13,20 @@ const sendReplyMessage = (token, msg) => bot.sendMessage(token, msg, {parse_mode
 
 const sendReplyWrongCommandMessage = (token) => bot.sendMessage(token, 'Wrong input. Type /keywords for more.')
 
-const insertNewUser = async (fullName, username, mobilePhone) => {
-  const {password, passwordHash} = createHashPassword()
+const insertNewUser = async (fullName, username, password) => {
+  let response = 'Failed. Your password must contain only 6 digit numbers.'
 
-  let response = `Success!\nThis is your secret password for LOGIN. DO NOT GIVE IT TO ANYONE.\nYour PASSWORD is ${password}`
+  if (!/^\d{6}$/.test(password)) {
+    return response
+  }
+
+  const passwordHash = createHash(password)
+  response = `Success!\nThis is your account for LOGIN. DO NOT GIVE IT TO ANYONE.
+  Username: ${username}
+  Password: ${password}`
 
   try {
-    await Postgre.insertNewUser(username, fullName, mobilePhone, passwordHash)
+    await Postgre.insertNewUser(username, fullName, passwordHash)
   } catch (e) {
     console.log(e)
     response = 'Failed. Your username already exist.'
