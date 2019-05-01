@@ -7,7 +7,7 @@ import LoginForm from '../../components/Form/LoginForm'
 class Login extends Component {
   componentWillMount() {
     if (this.props.loggedIn) {
-      replace('/dashboard')
+      this.props.replace('/dashboard')
     }
   }
 

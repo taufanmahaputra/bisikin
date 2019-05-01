@@ -7,7 +7,7 @@ import RegisterForm from '../../components/Form/RegisterForm'
 class Register extends Component {
   componentWillMount() {
     if (this.props.loggedIn) {
-      replace('/dashboard')
+      this.props.replace('/dashboard')
     }
   }
 
