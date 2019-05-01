@@ -1,10 +1,11 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import { Redirect, Route, Switch } from 'react-router'
+import { Route, Switch } from 'react-router'
 import { PersistGate } from 'redux-persist/integration/react'
 import { ConnectedRouter } from 'connected-react-router'
 
 import App from './pages/App'
+import Layout from './components/Layout'
 import LoginPage from './pages/Login'
 import RegisterPage from './pages/Register'
 import Message from './pages/Message'
@@ -17,10 +18,10 @@ export default (store, persistor, history) => {
             <Switch>
               <Route exact path='/login' component={LoginPage} />
               <Route exact path='/signup' component={RegisterPage} />
-              {/*<Route exact path='/message' component={Message} />*/}
               {/*<Route component={App}>*/}
-                <Route path='/dashboard' component={Message}/>
+                {/*<Route path='/dashboard' component={Layout}/>*/}
               {/*</Route>*/}
+              <Layout/>
             </Switch>
         </ConnectedRouter>
       </PersistGate>
