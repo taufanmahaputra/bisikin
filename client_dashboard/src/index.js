@@ -4,6 +4,7 @@ import { applyMiddleware, createStore, combineReducers, compose } from 'redux'
 import { reducer as formReducer } from 'redux-form'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+import hardSet from 'redux-persist/lib/stateReconciler/hardSet'
 import createSagaMiddleware from 'redux-saga'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { createBrowserHistory } from 'history'
@@ -28,7 +29,9 @@ const reducers = combineReducers(reducer)
 
 const persistConfig = {
   key: 'root',
-  storage
+  storage,
+  blacklist: ['router', 'form'],
+  stateReconciler: hardSet
 }
 const persistedReducer = persistReducer(persistConfig, reducers)
 
