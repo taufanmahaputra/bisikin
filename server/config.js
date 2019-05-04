@@ -13,6 +13,7 @@ export default {
   },
   service: {
     line: process.env.SERVICE_LINE,
-    telegram: process.env.SERVICE_TELEGRAM
+    telegram: process.env.SERVICE_TELEGRAM,
+    whatsapp: process.env.SERVICE_WHATSAPP
   }
 }

@@ -21,6 +21,10 @@ const handleSendMessageToSingleUser = async (req, res) => {
     requests.push(Message.sendMessageTelegram(user.telegram_id, msg))
   }
 
+  if (user.active_whatsapp) {
+    requests.push(Message.sendMessageWhatsapp(user.mobile_phone, msg))
+  }
+
   Promise.all(requests).then(() => {
     res.status(200).json({message: 'OK'})
   }).catch(e => {

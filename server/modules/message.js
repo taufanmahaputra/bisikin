@@ -21,10 +21,15 @@ const sendMulticastMessageTelegram = (to, text) => {
   return axios.post(Config.service.telegram + '/multicast', {to: to, text: text})
 }
 
+const sendMessageWhatsapp = (to, text) => {
+  return axios.post(Config.service.whatsapp, {to: to, text: text})
+}
+
 export {
   composeMessage,
   sendMessageLine,
   sendMulticastMessageLine,
   sendMessageTelegram,
-  sendMulticastMessageTelegram
+  sendMulticastMessageTelegram,
+  sendMessageWhatsapp
 }
