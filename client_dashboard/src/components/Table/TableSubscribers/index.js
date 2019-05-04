@@ -5,6 +5,7 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
+import Icon from '@material-ui/core/Icon'
 import classnames from 'classnames'
 
 const styles = theme => ({
@@ -32,9 +33,15 @@ class TableSubscribers extends Component {
           <TableRow>
             <TableCell>Full Name</TableCell>
             <TableCell align="right">Username</TableCell>
-            <TableCell align="right">Line</TableCell>
-            <TableCell align="right">Telegram</TableCell>
-            <TableCell align="right">Whatsapp</TableCell>
+            <TableCell align="right">
+              <Icon className={'fab fa-line'} />
+            </TableCell>
+            <TableCell align="right">
+              <Icon className={'fab fa-telegram'} />
+            </TableCell>
+            <TableCell align="right">
+              <Icon className={'fab fa-whatsapp'} />
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
