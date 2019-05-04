@@ -11,7 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Divider from '@material-ui/core/Divider'
 import Drawer from '@material-ui/core/Drawer'
 import DashboardIcon from '@material-ui/icons/DashboardRounded'
-import SendIcon from '@material-ui/icons/SendRounded'
+import MessageIcon from '@material-ui/icons/MessageRounded'
 import Message from '../../pages/Message'
 
 const styles = theme => ({
@@ -77,7 +77,7 @@ class Layout extends Component {
                   classes={{
                     root: classes.listItemText
                   }}>
-                  {item === 'Dashboard' ? <DashboardIcon/> : <SendIcon/>}
+                  {item === 'Dashboard' ? <DashboardIcon/> : <MessageIcon/>}
                 </ListItemIcon>
                 <ListItemText
                   classes={{
